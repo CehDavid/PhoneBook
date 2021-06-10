@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phonebook.ViewController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="0.0" layoutY="52.0" prefHeight="548.0" prefWidth="505.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="107.0">
+               <children>
+                  <StackPane id="menuPane" fx:id="menuPane" layoutX="-27.0" layoutY="123.0" prefHeight="546.0" prefWidth="145.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Pane id="exportPane" fx:id="exportPane" prefHeight="546.0" prefWidth="347.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Pane id="contactPane" fx:id="contactPane" layoutX="24.0" layoutY="23.0" prefHeight="546.0" prefWidth="347.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <TableView id="table" fx:id="table" layoutX="-5.0" layoutY="-2.0" prefHeight="367.0" prefWidth="353.0">
+                          <placeholder>
+                          <Label text ="Nincs adat"/>
+                          </placeholder>   
+                          <columns>
+                          </columns>
+                        </TableView>
+                        <TextField id="inputName" fx:id="inputName" layoutX="154.0" layoutY="382.0" />
+                        <TextField id="inputPhone" fx:id="inputPhone" layoutX="154.0" layoutY="422.0" />
+                        <TextField id="inputEmail" fx:id="inputEmail" layoutX="154.0" layoutY="466.0" />
+                        <Button id="addContact" fx:id="addContact" layoutX="154.0" layoutY="507.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Hozzáad" />
+                        <Label layoutX="35.0" layoutY="386.0" text="Név:">
+                           <font>
+                              <Font name="Roboto" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="35.0" layoutY="426.0" text="Telefonszám:">
+                           <font>
+                              <Font name="Roboto" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="35.0" layoutY="470.0" text="E-mail:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
