@@ -1,18 +1,27 @@
 
 package phonebook;
 
+
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -36,6 +45,11 @@ public class ViewController implements Initializable {
     @FXML
     private Pane exportPane;
     
+    private final String contats = "Kontaktok";
+    private final String exit = "Kilépés";
+    private final String list = "Lista";
+    private final String export = "Exportálás";
+    
     private final ObservableList<Person> data =FXCollections.observableArrayList(
         new Person("Példa Zsolt","+36506363363","zsoltpelda@pelda.com"),
         new Person("Nagy Katalin","+36304141414","nagykat@gmail.com"),
@@ -47,15 +61,39 @@ public class ViewController implements Initializable {
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         nameCol.setCellValueFactory( new PropertyValueFactory <Person,String>("name"));
         
+        nameCol.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<Person,String>>(){
+            @Override    
+            public void handle(TableColumn.CellEditEvent<Person,String> t){
+                ((Person)t.getTableView().getItems().get(t.getTablePosition().getRow())).setName(t.getNewValue());
+                 }
+            });
+        
         TableColumn phoneCol = new TableColumn("Telefonszám");
         phoneCol.setMinWidth(100);
         phoneCol.setCellFactory(TextFieldTableCell.forTableColumn());
         phoneCol.setCellValueFactory( new PropertyValueFactory <Person,String>("phone"));
-
+        
+         phoneCol.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<Person,String>>(){
+            @Override    
+            public void handle(TableColumn.CellEditEvent<Person,String> t){
+                ((Person)t.getTableView().getItems().get(t.getTablePosition().getRow())).setPhone(t.getNewValue());
+                 }
+            });
+         
         TableColumn emailCol = new TableColumn("E-mail");
         emailCol.setMinWidth(200);
         emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
         emailCol.setCellValueFactory( new PropertyValueFactory <Person,String>("email"));
+        
+        emailCol.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<Person,String>>(){
+            @Override    
+            public void handle(TableColumn.CellEditEvent<Person,String> t){
+                ((Person)t.getTableView().getItems().get(t.getTablePosition().getRow())).setEmail(t.getNewValue());
+                 }
+            });
         
         table.getColumns().addAll(nameCol,phoneCol,emailCol);
         table.setItems(data);
@@ -63,10 +101,58 @@ public class ViewController implements Initializable {
         
     }
     
+    private void setMenuDate(){
+        TreeItem<String> treeItemRoot1 = new TreeItem <>("Menü");
+        TreeView <String> treeView = new TreeView<>(treeItemRoot1);
+        treeView.setShowRoot(false);
+        
+        TreeItem <String> nodeItemA = new TreeItem <>(contats);
+        TreeItem <String> nodeItemB = new TreeItem <>(exit);
+        
+        Node contactNode = new ImageView(new Image(getClass().getResourceAsStream("/contact.png")));
+        Node exportNode = new ImageView(new Image(getClass().getResourceAsStream("/export.png")));
+        
+        TreeItem <String> nodeItemA1 = new TreeItem <>(list,contactNode);
+        TreeItem <String> nodeItemA2 = new TreeItem <>(export,exportNode);
+        
+        nodeItemA.getChildren().addAll(nodeItemA1,nodeItemA2);
+        treeItemRoot1.getChildren().addAll(nodeItemA, nodeItemB);
+        menuPane.getChildren().add(treeView);
+        
+        treeView.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener(){
+                public void changed(ObservableValue observable, Object oldValue, Object newValue){
+                    
+                    TreeItem <String> selectItem =(TreeItem)newValue;
+                    String selectedMenu = selectItem.getValue();
+                    
+                    if(selectedMenu!=null){
+                        switch(selectedMenu){
+                            case contats:
+                                selectItem.setExpanded(true);
+                                break;
+                            case list:
+                                contactPane.setVisible(true);
+                                exportPane.setVisible(false);
+                                break;
+                            case export:
+                                contactPane.setVisible(false);
+                                exportPane.setVisible(true);
+                                break;
+                            case exit:
+                                System.exit(0);
+                                break;            
+                        }
+                    }
+                }
+            });
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
     setTableData();
+    setMenuDate();
     
     }    
     
