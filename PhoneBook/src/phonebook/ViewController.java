@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,6 +45,9 @@ public class ViewController implements Initializable {
     private Pane contactPane;
     @FXML
     private Pane exportPane;
+    @FXML
+    private TextField inputFileName;
+    
     
     private final String contats = "Kontaktok";
     private final String exit = "Kilépés";
@@ -54,6 +58,32 @@ public class ViewController implements Initializable {
         new Person("Példa Zsolt","+36506363363","zsoltpelda@pelda.com"),
         new Person("Nagy Katalin","+36304141414","nagykat@gmail.com"),
         new Person("Kiss Petra","+36705513789","kisspetra44@gmail.com"));
+    
+    public void addContact(ActionEvent event){
+        
+        String name = inputName.getText();
+        String phone = inputPhone.getText();
+        String email = inputEmail.getText();
+        
+        if(email.length()>4&&email.contains(".") && email.contains("@")){
+            
+            data.add(new Person(name,phone,email));
+            inputName.clear();
+            inputPhone.clear();
+            inputEmail.clear();
+        }
+        
+    }
+    
+     public void exportList (ActionEvent event){
+         String fileName = inputFileName.getText();
+         
+     
+              System.out.println("OK");
+              PdfGeneration pdf = new PdfGeneration();
+              pdf.pdfGeneration(fileName, data);
+           
+    }
     
     private void setTableData() {
         TableColumn nameCol = new TableColumn("Név");
@@ -153,7 +183,8 @@ public class ViewController implements Initializable {
         
     setTableData();
     setMenuDate();
+   
     
-    }    
-    
+    }
+
 }
